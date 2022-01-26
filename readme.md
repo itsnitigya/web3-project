@@ -4,7 +4,7 @@ Usage:
 
 ```bash
 npm install
-node index.js
+node server.js
 ```
 
 Token:

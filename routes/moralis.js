@@ -1,12 +1,10 @@
-const express = require('express');
-const app = express();
-const Moralis  = require('moralis/node');
-const appId = "Qm369KHMIFJf6O23zwc8LEO5aOHzcs3PdKPj7uD8";
-const serverUrl = "https://iydi30ojpcdv.usemoralis.com:2053/server";
-Moralis.start({ serverUrl, appId });
+const Moralis = require('../utils/moralis')
 
-app.get('/token/:address', async (req,res)=>{
-	const address = req.param('address')
+let exp = {}
+
+exp.token = async (req, res) => {
+    try {
+        const address = req.params('address')
         const options = { chain: 'eth', address: address }
         const balances = await Moralis.Web3API.account.getTokenBalances(options);
 
@@ -18,10 +16,15 @@ app.get('/token/:address', async (req,res)=>{
         }));
 
         res.send(response);
-});
+    } catch (error) {
+        console.log(error);
+        res.sendError('Register error', 'Internal Server Error')
+    }
+}
 
-app.get('/nfts/:address',async (req,res)=>{
-		const address = req.param('address')
+exp.nft = async (req, res) => {
+    try {
+        const address = req.params('address')
      	const options = { chain: 'eth', address: address };
         const userEthNFTs =  await Moralis.Web3API.account.getNFTs(options);
 
@@ -34,6 +37,10 @@ app.get('/nfts/:address',async (req,res)=>{
         }));
 
         res.send(response);
-});
+    } catch (error) {
+        console.log(error);
+        res.sendError('Register error', 'Internal Server Error')
+    }
+}
 
-app.listen(3000);
+module.exports = exp;
