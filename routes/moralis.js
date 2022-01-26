@@ -4,7 +4,7 @@ let exp = {}
 
 exp.token = async (req, res) => {
     try {
-        const address = req.params('address')
+        const address = req.param('address')
         const options = { chain: 'eth', address: address }
         const balances = await Moralis.Web3API.account.getTokenBalances(options);
 
@@ -15,7 +15,7 @@ exp.token = async (req, res) => {
             balance: balance.balance
         }));
 
-        res.send(response);
+        res.sendSuccess(response);
     } catch (error) {
         console.log(error);
         res.sendError('Register error', 'Internal Server Error')
@@ -24,7 +24,7 @@ exp.token = async (req, res) => {
 
 exp.nft = async (req, res) => {
     try {
-        const address = req.params('address')
+        const address = req.param('address')
      	const options = { chain: 'eth', address: address };
         const userEthNFTs =  await Moralis.Web3API.account.getNFTs(options);
 
@@ -36,7 +36,7 @@ exp.nft = async (req, res) => {
             description: nft.metadata
         }));
 
-        res.send(response);
+        res.sendSuccess(response);
     } catch (error) {
         console.log(error);
         res.sendError('Register error', 'Internal Server Error')
